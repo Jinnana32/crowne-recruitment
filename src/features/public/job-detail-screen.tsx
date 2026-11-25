@@ -28,7 +28,7 @@ export function JobDetailScreen({ jobId }: { jobId: string }) {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-10">
-      <Link href="/jobs" className="text-sm font-semibold text-primary">Back to job listings</Link>
+      <Link href="/jobs/all" className="text-sm font-semibold text-primary">Back to all jobs</Link>
       <QueryState isLoading={job.isLoading} isError={job.isError} error={job.error}>
         {job.data ? (
           <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_300px]">

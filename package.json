@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node --experimental-strip-types --import ./tests/register-alias.mjs --test tests/*.test.ts"
+    "test": "node --experimental-strip-types --import ./tests/register-alias.mjs --test tests/*.test.ts",
+    "scaffold:demo": "node scripts/scaffold-demo-data.mjs",
+    "scaffold:demo:force": "node scripts/scaffold-demo-data.mjs --force"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
