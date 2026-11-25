@@ -1,0 +1,18 @@
+export const crowneTables = {
+  profiles: "crowne_profiles",
+  employers: "crowne_employers",
+  jobOrders: "crowne_job_orders",
+  publications: "crowne_job_publications",
+  candidates: "crowne_candidates",
+  applications: "crowne_applications",
+  history: "crowne_application_status_history",
+  processing: "crowne_processing_records",
+  checklist: "crowne_processing_checklist_items",
+  deployments: "crowne_deployment_records",
+  transactions: "crowne_financial_transactions",
+  documents: "crowne_candidate_documents",
+  documentRequests: "crowne_document_requests",
+  documentEvents: "crowne_document_events",
+  workExperience: "crowne_candidate_work_experience",
+  education: "crowne_candidate_education",
+} as const;

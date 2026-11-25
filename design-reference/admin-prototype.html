@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crowne ORMS — Main Screens Prototype</title>
+<style>
+:root{
+ --royal:#141e68;--royal-2:#202f85;--royal-3:#34459a;--gold:#f4cf36;--gold-soft:#fff7d6;
+ --ink:#1c2540;--muted:#75809a;--line:#e7eaf1;--canvas:#f5f6fa;--white:#fff;
+ --green:#16845b;--green-bg:#e8f6ef;--amber:#9a6900;--amber-bg:#fff5d9;--red:#bd4141;--red-bg:#fff0ef;
+ --blue-bg:#edf1ff;--purple:#7557ae;--purple-bg:#f2edfb;--shadow:0 8px 24px rgba(20,30,104,.055);
+}
+*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--ink);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}.sidebar{width:250px;background:var(--royal);color:#dce2ff;display:flex;flex-direction:column;padding:20px 14px;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:11px;padding:3px 10px 24px;color:#fff}
+.brandmark{height:38px;width:38px;border-radius:11px;background:linear-gradient(145deg,#ffdf59,#d7a900);display:grid;place-items:center;color:var(--royal);font-size:23px;font-weight:900;box-shadow:0 4px 12px #050b3d55}
+.brandname{font-size:15px;font-weight:800;letter-spacing:.5px}.brandname small{display:block;font-size:9px;letter-spacing:1.5px;color:#c9d0fa;font-weight:650;margin-top:1px}
+.workspace{margin:0 7px 21px;border:1px solid #ffffff25;background:#ffffff0c;padding:11px 12px;border-radius:10px;font-size:11px;color:#c5ccef}
+.workspace strong{display:block;color:#fff;font-size:12px;margin-bottom:3px}
+.navlabel{font-size:9px;letter-spacing:1.4px;color:#9ea9dc;padding:13px 12px 7px;font-weight:800}
+.nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;color:#d0d6f5;text-decoration:none;margin:2px 0;font-size:12px;font-weight:550;transition:.15s}
+.nav a:hover{background:#ffffff12;color:#fff}.nav a.active{background:#fff;color:var(--royal);font-weight:750;box-shadow:0 4px 12px #050b3d25}
+.ico{width:17px;text-align:center;font-size:15px}.sidebar-bottom{margin-top:auto;border-top:1px solid #ffffff24;padding:16px 8px 0;display:flex;align-items:center;gap:10px}
+.avatar{width:33px;height:33px;border-radius:50%;background:#e7ebff;color:var(--royal);display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0}
+.sidebar-bottom strong{display:block;color:#fff;font-size:11px}.sidebar-bottom small{color:#b5bee8;font-size:10px}
+.main{flex:1;min-width:0}.topbar{height:65px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:4}
+.crumb{font-size:11px;color:#9099ad}.crumb strong{color:var(--ink);font-weight:700}.topright{display:flex;align-items:center;gap:17px}.topbtn{border:0;background:none;color:#6e7890;font-size:17px;position:relative}.notice{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--gold);right:0;top:0}
+.content{max-width:1480px;margin:auto;padding:27px 32px 48px}.page{display:none}.page.active{display:block}
+.pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px}
+.kicker{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:#8a93a8;font-weight:800;margin-bottom:7px}
+h1{font-size:24px;letter-spacing:-.65px;margin:0 0 5px;font-weight:780;color:#182342}.subtitle{margin:0;color:var(--muted);font-size:12px}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;color:#44506b;border-radius:8px;padding:9px 12px;font-size:11px;font-weight:700;box-shadow:0 1px 2px #141e6808}
+.btn.primary{background:var(--royal);border-color:var(--royal);color:#fff}.btn.gold{background:var(--gold);border-color:var(--gold);color:#28244b}.btn:hover{filter:brightness(.98);transform:translateY(-1px)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:17px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:15px 16px;box-shadow:0 2px 8px #141e6805}
+.stathead{display:flex;justify-content:space-between;align-items:center;color:#78839a;font-size:11px}.staticon{width:29px;height:29px;border-radius:8px;background:var(--blue-bg);color:var(--royal);display:grid;place-items:center}
+.statvalue{font-size:25px;letter-spacing:-.8px;font-weight:800;margin:10px 0 3px;color:#192342}.statfoot{font-size:10px;color:#8b95a8}.up{color:var(--green);font-weight:700}
+.panel{background:#fff;border:1px solid var(--line);border-radius:11px;box-shadow:0 2px 8px #141e6805;min-width:0}
+.panelhead{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.panelhead h3{font-size:12px;margin:0;font-weight:780}.panelhead p{font-size:10px;color:#8a94a8;margin:3px 0 0}
+.textlink{border:0;background:none;color:var(--royal-2);font-size:10px;font-weight:800}
+.twocol{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(290px,1fr);gap:14px;margin-bottom:14px}
+.bottomgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+.chartwrap{padding:15px 17px}.chart{height:160px;display:flex;align-items:end;gap:14px;padding:7px 8px 0;border-bottom:1px solid var(--line);background:repeating-linear-gradient(to bottom,transparent 0,transparent 38px,#f0f2f7 39px)}
+.bargrp{height:100%;flex:1;display:flex;align-items:end;justify-content:center;gap:4px}.bar{width:12px;border-radius:4px 4px 0 0;background:#b7c1ec}.bar.mainbar{background:var(--royal-2)}.bar.goldbar{background:var(--gold)}
+.months{display:flex;justify-content:space-around;color:#939caf;font-size:9px;padding:7px 0}.legend{display:flex;gap:14px;font-size:9px;color:#818ba0}.legend i{display:inline-block;width:7px;height:7px;border-radius:2px;background:var(--royal-2);margin-right:5px}.legend i.gold{background:var(--gold)}
+.activity{padding:4px 17px 10px}.activityrow{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f0f2f6}.activityrow:last-child{border:0}.acticon{width:28px;height:28px;border-radius:8px;background:#f1f3fb;display:grid;place-items:center;color:var(--royal);flex-shrink:0}.acttext{font-size:10px;color:#66718a}.acttext strong{color:#27314e;font-size:11px}.acttext small{display:block;color:#9aa2b2;font-size:9px;margin-top:3px}
+table{width:100%;border-collapse:collapse;white-space:nowrap}th{text-align:left;font-size:9px;letter-spacing:.7px;text-transform:uppercase;color:#8c96a9;background:#fafbfe;padding:11px 15px;border-bottom:1px solid var(--line)}td{padding:12px 15px;border-bottom:1px solid #f0f2f6;font-size:10px;color:#58647b}tr:last-child td{border-bottom:0}.namecell{display:flex;align-items:center;gap:8px}.namecell strong{display:block;color:#27324f;font-size:10px}.namecell small{display:block;color:#9aa3b2;font-size:9px}.miniavatar{width:28px;height:28px;border-radius:50%;background:#edf0ff;color:var(--royal);display:grid;place-items:center;font-size:9px;font-weight:800}
+.pill{display:inline-flex;align-items:center;border-radius:20px;padding:4px 7px;font-size:9px;font-weight:750}.green{background:var(--green-bg);color:var(--green)}.amber{background:var(--amber-bg);color:var(--amber)}.blue{background:var(--blue-bg);color:var(--royal-2)}.red{background:var(--red-bg);color:var(--red)}.purple{background:var(--purple-bg);color:var(--purple)}
+.progress{height:5px;background:#edf0f5;border-radius:6px;width:82px;display:inline-block;vertical-align:middle;margin-right:5px;overflow:hidden}.progress i{height:100%;display:block;background:var(--royal-2);border-radius:6px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:13px 15px;border-bottom:1px solid var(--line);flex-wrap:wrap}.search{position:relative;flex:1;min-width:210px;max-width:350px}.search input{width:100%;padding:9px 11px 9px 31px;border:1px solid var(--line);border-radius:8px;outline:none;font-size:10px}.search:before{content:"⌕";position:absolute;left:11px;top:4px;color:#8b95a8;font-size:18px}.select{border:1px solid var(--line);background:white;color:#66718a;padding:9px 10px;border-radius:8px;font-size:10px}
+.kanban{display:grid;grid-template-columns:repeat(5,minmax(185px,1fr));gap:10px;padding:14px;background:#fafbfe;overflow-x:auto}.kan-col{min-width:185px}.kantitle{display:flex;justify-content:space-between;align-items:center;padding:3px 2px 10px;font-size:10px;font-weight:800;color:#58647d}.count{background:#edf0f6;border-radius:12px;padding:2px 7px;color:#7b8599;font-size:9px}.kcard{background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px;margin-bottom:8px;box-shadow:0 2px 5px #141e6805}.kcard .namecell{margin-bottom:9px}.kcard p{font-size:9px;color:#68748a;margin:0 0 9px}.kfoot{border-top:1px solid #f0f2f6;padding-top:7px;display:flex;justify-content:space-between;align-items:center;color:#929bad;font-size:9px}
+.split{display:grid;grid-template-columns:1.4fr .8fr;gap:14px}.detailhero{padding:19px;display:flex;align-items:center;gap:14px}.bigavatar{width:54px;height:54px;border-radius:15px;background:#edf0ff;color:var(--royal);display:grid;place-items:center;font-weight:800;font-size:17px}.detailhero h2{font-size:17px;margin:0 0 4px}.detailhero p{margin:0;color:#8791a5;font-size:10px}.detailbody{padding:0 18px 18px}.fieldgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.field label{display:block;color:#9099ab;font-size:9px;margin-bottom:4px}.field strong{font-size:11px;color:#35405a}
+.checkrow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f0f2f6;font-size:10px}.checkrow:last-child{border:0}.checkrow strong{font-size:10px;color:#34405a}.check{width:17px;height:17px;border-radius:5px;background:var(--green-bg);color:var(--green);display:grid;place-items:center;font-size:10px}
+.financehighlight{background:linear-gradient(120deg,var(--royal),#263b94);color:#fff;border-radius:11px;padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden}.financehighlight:after{content:"₱";position:absolute;right:26px;top:-25px;font-size:130px;color:#ffffff0c;font-weight:800}.financehighlight span{font-size:10px;color:#d2d8fa}.financehighlight strong{display:block;font-size:28px;letter-spacing:-.7px;margin-top:6px}.financehighlight small{color:#d2d8fa;font-size:9px}
+.toast{position:fixed;right:22px;bottom:22px;background:#18234b;color:white;padding:12px 15px;border-radius:9px;font-size:11px;box-shadow:var(--shadow);opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}
+@media(max-width:1050px){.sidebar{width:215px}.content{padding:23px}.stats{grid-template-columns:repeat(2,1fr)}.twocol,.bottomgrid,.split{grid-template-columns:1fr}}
+@media(max-width:720px){.sidebar{width:60px;padding:16px 7px}.brand{padding:0 4px 22px}.brandname,.workspace,.navlabel,.nav a span:not(.ico),.sidebar-bottom div:not(.avatar){display:none}.nav a{justify-content:center;padding:12px 4px}.sidebar-bottom{padding:13px 3px}.topbar{padding:0 14px}.content{padding:18px 12px}.pagehead{display:block}.actions{margin-top:13px}.stats{gap:8px}.stat{padding:12px}.statvalue{font-size:22px}.twocol,.bottomgrid,.split{display:block}.twocol>.panel,.bottomgrid>.panel,.split>.panel{margin-bottom:12px}.kanban{grid-template-columns:repeat(5,185px)}}
+</style><meta name="crowne-reference-logo" content="provided logo retained separately"><!-- Reference logo data available: 208488 base64 chars; intentionally not used as the UI mark because source is low resolution. --></head>
+<body><div class="app">
+<aside class="sidebar">
+ <div class="brand"><div class="brandmark">♛</div><div class="brandname">CROWNE<small>HUMAN RESOURCES, INC.</small></div></div>
+ <div class="workspace"><strong>Agency workspace</strong>2018 Crowne Human Resources　⌄</div>
+ <nav class="nav">
+  <div class="navlabel">MAIN WORKSPACE</div>
+  <a href="#" data-page="overview" class="active"><span class="ico">▦</span><span>Overview</span></a>
+  <a href="#" data-page="jobs"><span class="ico">▤</span><span>Job orders</span></a>
+  <a href="#" data-page="recruitment"><span class="ico">◎</span><span>Recruitment</span></a>
+  <a href="#" data-page="candidates"><span class="ico">♙</span><span>Candidates</span></a>
+  <a href="#" data-page="processing"><span class="ico">▣</span><span>Processing</span></a>
+  <a href="#" data-page="deployment"><span class="ico">✈</span><span>Deployment</span></a>
+  <div class="navlabel">BUSINESS MANAGEMENT</div>
+  <a href="#" data-page="finance"><span class="ico">₱</span><span>Finance</span></a>
+  <a href="#"><span class="ico">▥</span><span>Reports</span></a>
+  <a href="#"><span class="ico">⚙</span><span>Settings</span></a>
+ </nav>
+ <div class="sidebar-bottom"><div class="avatar">MC</div><div><strong>Maria Cruz</strong><small>Administrator</small></div></div>
+</aside>
+<main class="main">
+<header class="topbar"><div class="crumb">Crowne workspace　/　<strong id="crumb">Overview</strong></div><div class="topright"><button class="topbtn">ⓘ</button><button class="topbtn">♧<i class="notice"></i></button><div class="avatar">MC</div></div></header>
+<div class="content">
+<section class="page active" id="overview">
+ <div class="pagehead"><div><div class="kicker">Wednesday, November 19, 2026</div><h1>Good evening, Maria</h1><p class="subtitle">Your agency operations at a glance.</p></div><div class="actions"><button class="btn">↓ Export report</button><button class="btn primary" onclick="toast('Create job order flow opened')">＋ New job order</button></div></div>
+ <div class="stats">
+  <div class="stat"><div class="stathead">Active job orders <span class="staticon">▤</span></div><div class="statvalue">24</div><div class="statfoot"><span class="up">↑ 3</span> added this month</div></div>
+  <div class="stat"><div class="stathead">Active applicants <span class="staticon">♙</span></div><div class="statvalue">1,284</div><div class="statfoot"><span class="up">↑ 12.8%</span> vs last month</div></div>
+  <div class="stat"><div class="stathead">For processing <span class="staticon">▣</span></div><div class="statvalue">86</div><div class="statfoot">Across 9 job orders</div></div>
+  <div class="stat"><div class="stathead">Deployed this month <span class="staticon">✈</span></div><div class="statvalue">42</div><div class="statfoot"><span class="up">↑ 8.2%</span> vs last month</div></div>
+ </div>
+ <div class="twocol">
+  <div class="panel"><div class="panelhead"><div><h3>Recruitment performance</h3><p>Applications and candidates shortlisted</p></div><select class="select"><option>Last 6 months</option><option>This year</option></select></div><div class="chartwrap"><div class="chart">
+   <div class="bargrp"><i class="bar" style="height:40%"></i><i class="bar mainbar" style="height:55%"></i></div><div class="bargrp"><i class="bar" style="height:48%"></i><i class="bar mainbar" style="height:67%"></i></div><div class="bargrp"><i class="bar" style="height:44%"></i><i class="bar mainbar" style="height:61%"></i></div><div class="bargrp"><i class="bar" style="height:60%"></i><i class="bar mainbar" style="height:79%"></i></div><div class="bargrp"><i class="bar" style="height:56%"></i><i class="bar mainbar" style="height:71%"></i></div><div class="bargrp"><i class="bar goldbar" style="height:74%"></i><i class="bar mainbar" style="height:92%"></i></div>
+  </div><div class="months"><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span></div><div class="legend"><span><i></i>Applications</span><span><i class="gold"></i>Shortlisted</span></div></div></div>
+  <div class="panel"><div class="panelhead"><div><h3>Recent activity</h3><p>Latest updates from your team</p></div><button class="textlink">View all</button></div><div class="activity">
+   <div class="activityrow"><div class="acticon">✓</div><div class="acttext"><strong>Applicant selected</strong><br>Ahmed Hassan · Welder, Qatar<small>Today, 4:32 PM · John Dela Cruz</small></div></div>
+   <div class="activityrow"><div class="acticon">＋</div><div class="acttext"><strong>New application received</strong><br>Maria Santos · Caregiver, Japan<small>Today, 3:18 PM · Public portal</small></div></div>
+   <div class="activityrow"><div class="acticon">▣</div><div class="acttext"><strong>Document verified</strong><br>Passport · Roberto Lim<small>Today, 1:05 PM · Ana Reyes</small></div></div>
+   <div class="activityrow"><div class="acticon">✈</div><div class="acttext"><strong>Deployment completed</strong><br>3 workers departed for Saudi Arabia<small>Yesterday · Processing team</small></div></div>
+  </div></div>
+ </div>
+ <div class="bottomgrid">
+  <div class="panel"><div class="panelhead"><div><h3>Priority job orders</h3><p>Orders that need attention</p></div><button class="textlink" onclick="go('jobs')">View all →</button></div><div style="overflow:auto"><table><thead><tr><th>Job order / employer</th><th>Applicants</th><th>Fulfillment</th><th>Status</th></tr></thead><tbody>
+   <tr><td><div class="namecell"><div><strong>Welder · Qatar</strong><small>Al Noor Industrial Co.</small></div></div></td><td>48 / 60</td><td><span class="progress"><i style="width:80%"></i></span>80%</td><td><span class="pill amber">Urgent</span></td></tr>
+   <tr><td><div class="namecell"><div><strong>Caregiver · Japan</strong><small>Hikari Care Group</small></div></div></td><td>22 / 30</td><td><span class="progress"><i style="width:73%"></i></span>73%</td><td><span class="pill blue">Recruiting</span></td></tr>
+   <tr><td><div class="namecell"><div><strong>Electrician · UAE</strong><small>Gulf Build LLC</small></div></div></td><td>14 / 25</td><td><span class="progress"><i style="width:56%"></i></span>56%</td><td><span class="pill blue">Recruiting</span></td></tr>
+  </tbody></table></div></div>
+  <div class="panel"><div class="panelhead"><div><h3>Pipeline snapshot</h3><p>Applicants by current stage</p></div><button class="textlink" onclick="go('recruitment')">Open pipeline →</button></div><div style="padding:14px 18px">
+   <div style="display:flex;justify-content:space-between;font-size:10px;margin:6px 0"><span>New applications</span><strong>324</strong></div><div class="progress" style="width:100%;height:7px"><i style="width:85%"></i></div>
+   <div style="display:flex;justify-content:space-between;font-size:10px;margin:13px 0 6px"><span>Shortlisted</span><strong>186</strong></div><div class="progress" style="width:100%;height:7px"><i style="width:62%;background:#667bd0"></i></div>
+   <div style="display:flex;justify-content:space-between;font-size:10px;margin:13px 0 6px"><span>Employer review</span><strong>92</strong></div><div class="progress" style="width:100%;height:7px"><i style="width:38%;background:#8b78c8"></i></div>
+   <div style="display:flex;justify-content:space-between;font-size:10px;margin:13px 0 6px"><span>For processing</span><strong>86</strong></div><div class="progress" style="width:100%;height:7px"><i style="width:29%;background:#25a77b"></i></div>
+  </div></div>
+ </div>
+</section>
+<section class="page" id="jobs">
+ <div class="pagehead"><div><div class="kicker">Employer & manpower demand</div><h1>Job orders</h1><p class="subtitle">Manage approved manpower requests, vacancies, and recruitment progress.</p></div><div class="actions"><button class="btn">↓ Export</button><button class="btn primary" onclick="toast('New job order form opened')">＋ Create job order</button></div></div>
+ <div class="stats">
+  <div class="stat"><div class="stathead">Open job orders <span class="staticon">▤</span></div><div class="statvalue">24</div><div class="statfoot">Currently recruiting</div></div>
+  <div class="stat"><div class="stathead">Total vacancies <span class="staticon">♙</span></div><div class="statvalue">386</div><div class="statfoot">Across active orders</div></div>
+  <div class="stat"><div class="stathead">Filled positions <span class="staticon">✓</span></div><div class="statvalue">214</div><div class="statfoot"><span class="up">55%</span> of total vacancies</div></div>
+  <div class="stat"><div class="stathead">Pending approval <span class="staticon">◷</span></div><div class="statvalue">4</div><div class="statfoot">Needs management review</div></div>
+ </div>
+ <div class="panel"><div class="toolbar"><div class="search"><input placeholder="Search job title, employer, or reference…"></div><div style="display:flex;gap:7px;flex-wrap:wrap"><select class="select"><option>All countries</option><option>Qatar</option><option>Japan</option><option>UAE</option></select><select class="select"><option>All statuses</option><option>Recruiting</option><option>On hold</option><option>Completed</option></select><button class="btn">☷ Filters</button></div></div><div style="overflow:auto"><table><thead><tr><th>Job order / employer</th><th>Country</th><th>Vacancies</th><th>Applicants</th><th>Fulfillment</th><th>Channels</th><th>Status</th><th></th></tr></thead><tbody>
+  <tr><td><div class="namecell"><div><strong>JO-2026-024 · Welder</strong><small>Al Noor Industrial Co.</small></div></div></td><td>🇶🇦 Qatar</td><td>60</td><td>48</td><td><span class="progress"><i style="width:80%"></i></span>80%</td><td><span class="pill green">Website</span> <span class="pill blue">WorkAbroad</span></td><td><span class="pill amber">Urgent</span></td><td>•••</td></tr>
+  <tr><td><div class="namecell"><div><strong>JO-2026-023 · Caregiver</strong><small>Hikari Care Group</small></div></div></td><td>🇯🇵 Japan</td><td>30</td><td>22</td><td><span class="progress"><i style="width:73%"></i></span>73%</td><td><span class="pill green">Website</span></td><td><span class="pill blue">Recruiting</span></td><td>•••</td></tr>
+  <tr><td><div class="namecell"><div><strong>JO-2026-021 · Electrician</strong><small>Gulf Build LLC</small></div></div></td><td>🇦🇪 UAE</td><td>25</td><td>14</td><td><span class="progress"><i style="width:56%"></i></span>56%</td><td><span class="pill green">Website</span> <span class="pill blue">WorkAbroad</span></td><td><span class="pill blue">Recruiting</span></td><td>•••</td></tr>
+  <tr><td><div class="namecell"><div><strong>JO-2026-019 · Heavy Equipment Operator</strong><small>Al Noor Industrial Co.</small></div></div></td><td>🇸🇦 Saudi Arabia</td><td>40</td><td>40</td><td><span class="progress"><i style="width:100%"></i></span>100%</td><td><span class="pill green">Website</span></td><td><span class="pill green">Filled</span></td><td>•••</td></tr>
+  <tr><td><div class="namecell"><div><strong>JO-2026-017 · Hotel Staff</strong><small>Marina Hospitality</small></div></div></td><td>🇲🇻 Maldives</td><td>18</td><td>9</td><td><span class="progress"><i style="width:50%"></i></span>50%</td><td><span class="pill green">Website</span></td><td><span class="pill blue">Recruiting</span></td><td>•••</td></tr>
+ </tbody></table></div></div>
+ <p style="font-size:10px;color:#929bad;margin:10px 2px">Fulfillment should be based on selected / confirmed candidates, not raw applications. Each publication channel is tracked independently.</p>
+</section>
+<section class="page" id="recruitment">
+ <div class="pagehead"><div><div class="kicker">Recruitment workspace</div><h1>Application pipeline</h1><p class="subtitle">Move each application through screening, assessment, and employer selection.</p></div><div class="actions"><button class="btn">↓ Export</button><button class="btn primary" onclick="toast('Add applicant flow opened')">＋ Add applicant</button></div></div>
+ <div class="panel"><div class="toolbar"><div class="search"><input id="searchCandidate" oninput="filterCards()" placeholder="Search candidate or job title…"></div><div style="display:flex;gap:7px"><select class="select" id="filterJob" onchange="filterCards()"><option value="">All job orders</option><option>Welder · Qatar</option><option>Caregiver · Japan</option><option>Electrician · UAE</option></select><select class="select"><option>All recruiters</option><option>John Dela Cruz</option><option>Ana Reyes</option></select></div></div>
+ <div class="kanban" id="board">
+  <div class="kan-col"><div class="kantitle">New application <span class="count">3</span></div>
+   <div class="kcard" data-name="Maria Santos" data-job="Caregiver · Japan"><div class="namecell"><div class="miniavatar">MS</div><div><strong>Maria Santos</strong><small>APP-2026-1048</small></div></div><p>Caregiver · Japan</p><div class="kfoot"><span>Applied today</span><span>Portal</span></div></div>
+   <div class="kcard" data-name="Roberto Lim" data-job="Electrician · UAE"><div class="namecell"><div class="miniavatar">RL</div><div><strong>Roberto Lim</strong><small>APP-2026-1047</small></div></div><p>Electrician · UAE</p><div class="kfoot"><span>Nov 18</span><span>WorkAbroad</span></div></div>
+   <div class="kcard" data-name="Paolo Garcia" data-job="Welder · Qatar"><div class="namecell"><div class="miniavatar">PG</div><div><strong>Paolo Garcia</strong><small>APP-2026-1042</small></div></div><p>Welder · Qatar</p><div class="kfoot"><span>Nov 17</span><span>Walk-in</span></div></div>
+  </div>
+  <div class="kan-col"><div class="kantitle">Screening <span class="count">2</span></div>
+   <div class="kcard" data-name="Jose Mendoza" data-job="Welder · Qatar"><div class="namecell"><div class="miniavatar">JM</div><div><strong>Jose Mendoza</strong><small>APP-2026-1039</small></div></div><p>Welder · Qatar</p><div class="kfoot"><span>Nov 16</span><span>Portal</span></div></div>
+   <div class="kcard" data-name="Liza Flores" data-job="Caregiver · Japan"><div class="namecell"><div class="miniavatar">LF</div><div><strong>Liza Flores</strong><small>APP-2026-1037</small></div></div><p>Caregiver · Japan</p><div class="kfoot"><span>Nov 15</span><span>Referral</span></div></div>
+  </div>
+  <div class="kan-col"><div class="kantitle">Shortlisted <span class="count">2</span></div>
+   <div class="kcard" data-name="Ramon Cruz" data-job="Welder · Qatar"><div class="namecell"><div class="miniavatar">RC</div><div><strong>Ramon Cruz</strong><small>APP-2026-1028</small></div></div><p>Welder · Qatar</p><div class="kfoot"><span>Nov 14</span><span>Portal</span></div></div>
+   <div class="kcard" data-name="Ana Bautista" data-job="Electrician · UAE"><div class="namecell"><div class="miniavatar">AB</div><div><strong>Ana Bautista</strong><small>APP-2026-1025</small></div></div><p>Electrician · UAE</p><div class="kfoot"><span>Nov 13</span><span>WorkAbroad</span></div></div>
+  </div>
+  <div class="kan-col"><div class="kantitle">Employer review <span class="count">2</span></div>
+   <div class="kcard" data-name="Ahmed Hassan" data-job="Welder · Qatar"><div class="namecell"><div class="miniavatar">AH</div><div><strong>Ahmed Hassan</strong><small>APP-2026-1018</small></div></div><p>Welder · Qatar</p><div class="kfoot"><span>Nov 12</span><span class="pill amber">Awaiting</span></div></div>
+   <div class="kcard" data-name="Carlo Reyes" data-job="Caregiver · Japan"><div class="namecell"><div class="miniavatar">CR</div><div><strong>Carlo Reyes</strong><small>APP-2026-1016</small></div></div><p>Caregiver · Japan</p><div class="kfoot"><span>Nov 11</span><span>Portal</span></div></div>
+  </div>
+  <div class="kan-col"><div class="kantitle">Selected <span class="count">1</span></div>
+   <div class="kcard" data-name="Mark Villanueva" data-job="Electrician · UAE"><div class="namecell"><div class="miniavatar">MV</div><div><strong>Mark Villanueva</strong><small>APP-2026-1009</small></div></div><p>Electrician · UAE</p><div class="kfoot"><span>Nov 10</span><span class="pill green">Selected</span></div></div>
+  </div>
+ </div></div><p style="font-size:10px;color:#929bad;margin:10px 2px">Each card represents an application. A candidate can have more than one application across different job orders.</p>
+</section>
+<section class="page" id="candidates">
+ <div class="pagehead"><div><div class="kicker">People database</div><h1>Candidates</h1><p class="subtitle">One profile per person, with a complete history of their applications.</p></div><div class="actions"><button class="btn">Import candidates</button><button class="btn primary" onclick="toast('Candidate registration form opened')">＋ Add candidate</button></div></div>
+ <div class="panel"><div class="toolbar"><div class="search"><input placeholder="Search name, email, or candidate ID…"></div><div style="display:flex;gap:7px"><select class="select"><option>All statuses</option><option>Active</option><option>For processing</option></select><select class="select"><option>All sources</option><option>Agency portal</option><option>WorkAbroad</option><option>Walk-in</option></select></div></div><div style="overflow:auto"><table><thead><tr><th>Candidate</th><th>Candidate ID</th><th>Latest application</th><th>Applications</th><th>Profile completeness</th><th>Candidate status</th><th></th></tr></thead><tbody>
+  <tr><td><div class="namecell"><div class="miniavatar">MS</div><div><strong>Maria Santos</strong><small>maria.santos@email.com</small></div></div></td><td>CND-2026-0281</td><td>Caregiver · Japan</td><td>2</td><td><span class="progress"><i style="width:90%"></i></span>90%</td><td><span class="pill blue">Active</span></td><td>•••</td></tr>
+  <tr><td><div class="namecell"><div class="miniavatar">RL</div><div><strong>Roberto Lim</strong><small>roberto.lim@email.com</small></div></div></td><td>CND-2026-0279</td><td>Electrician · UAE</td><td>1</td><td><span class="progress"><i style="width:72%"></i></span>72%</td><td><span class="pill blue">Active</span></td><td>•••</td></tr>
+  <tr><td><div class="namecell"><div class="miniavatar">AH</div><div><strong>Ahmed Hassan</strong><small>ahmed.hassan@email.com</small></div></div></td><td>CND-2026-0264</td><td>Welder · Qatar</td><td>3</td><td><span class="progress"><i style="width:100%"></i></span>100%</td><td><span class="pill green">Selected</span></td><td>•••</td></tr>
+ </tbody></table></div></div>
+</section>
+<section class="page" id="processing">
+ <div class="pagehead"><div><div class="kicker">Post-selection workflow</div><h1>Processing</h1><p class="subtitle">Coordinate candidate requirements, document verification, medical, and contract steps.</p></div><div class="actions"><button class="btn">Export checklist</button><button class="btn primary" onclick="toast('Processing record creation opened')">＋ Start processing</button></div></div>
+ <div class="stats"><div class="stat"><div class="stathead">In processing <span class="staticon">▣</span></div><div class="statvalue">86</div><div class="statfoot">Across active job orders</div></div><div class="stat"><div class="stathead">Documents pending <span class="staticon">▤</span></div><div class="statvalue">32</div><div class="statfoot"><span class="up">Needs follow-up</span></div></div><div class="stat"><div class="stathead">Medical pending <span class="staticon">＋</span></div><div class="statvalue">18</div><div class="statfoot">Scheduling or results</div></div><div class="stat"><div class="stathead">Ready for deployment <span class="staticon">✓</span></div><div class="statvalue">21</div><div class="statfoot">All required checks completed</div></div></div>
+ <div class="split"><div class="panel"><div class="panelhead"><div><h3>Workers in processing</h3><p>Current processing status by selected candidate</p></div><button class="textlink">View all</button></div><div style="overflow:auto"><table><thead><tr><th>Candidate</th><th>Job / country</th><th>Checklist</th><th>Next action</th><th>Status</th></tr></thead><tbody>
+  <tr><td><div class="namecell"><div class="miniavatar">AH</div><div><strong>Ahmed Hassan</strong><small>PRC-2026-0182</small></div></div></td><td>Welder · Qatar</td><td><span class="progress"><i style="width:85%"></i></span>85%</td><td>Contract signing</td><td><span class="pill amber">In progress</span></td></tr>
+  <tr><td><div class="namecell"><div class="miniavatar">MV</div><div><strong>Mark Villanueva</strong><small>PRC-2026-0179</small></div></div></td><td>Electrician · UAE</td><td><span class="progress"><i style="width:100%"></i></span>100%</td><td>Deployment review</td><td><span class="pill green">Ready</span></td></tr>
+  <tr><td><div class="namecell"><div class="miniavatar">LF</div><div><strong>Liza Flores</strong><small>PRC-2026-0175</small></div></div></td><td>Caregiver · Japan</td><td><span class="progress"><i style="width:55%"></i></span>55%</td><td>Medical results</td><td><span class="pill amber">In progress</span></td></tr>
+ </tbody></table></div></div>
+ <div class="panel"><div class="panelhead"><div><h3>Processing checklist</h3><p>Example requirements · Ahmed Hassan</p></div><span class="pill amber">85% complete</span></div><div style="padding:5px 17px 13px">
+  <div class="checkrow"><span>Passport verification</span><span class="check">✓</span></div><div class="checkrow"><span>Police clearance</span><span class="check">✓</span></div><div class="checkrow"><span>Medical examination</span><span class="pill green">Passed</span></div><div class="checkrow"><span>Employment contract</span><span class="pill amber">Pending</span></div><div class="checkrow"><span>Pre-departure orientation</span><span class="pill amber">Pending</span></div>
+ </div></div></div>
+ <p style="font-size:10px;color:#929bad;margin:10px 2px">Requirements and checklists must be configurable by country, employer, and job order. Medical information requires restricted access.</p>
+</section>
+<section class="page" id="deployment">
+ <div class="pagehead"><div><div class="kicker">Departure & worker tracking</div><h1>Deployment</h1><p class="subtitle">Track deployment readiness, travel arrangements, and completed departures.</p></div><div class="actions"><button class="btn">↓ Export manifest</button><button class="btn primary" onclick="toast('Deployment record form opened')">＋ Schedule deployment</button></div></div>
+ <div class="stats"><div class="stat"><div class="stathead">Ready to deploy <span class="staticon">✓</span></div><div class="statvalue">21</div><div class="statfoot">All required checks complete</div></div><div class="stat"><div class="stathead">Scheduled departures <span class="staticon">✈</span></div><div class="statvalue">14</div><div class="statfoot">Next 30 days</div></div><div class="stat"><div class="stathead">Deployed this month <span class="staticon">↗</span></div><div class="statvalue">42</div><div class="statfoot"><span class="up">↑ 8.2%</span> vs last month</div></div><div class="stat"><div class="stathead">Pending clearances <span class="staticon">◷</span></div><div class="statvalue">7</div><div class="statfoot">Needs review</div></div></div>
+ <div class="panel"><div class="panelhead"><div><h3>Upcoming departures</h3><p>Workers with planned travel dates</p></div><button class="textlink">View deployment calendar →</button></div><div style="overflow:auto"><table><thead><tr><th>Worker</th><th>Employer / position</th><th>Destination</th><th>Departure date</th><th>Travel status</th><th>Readiness</th></tr></thead><tbody>
+  <tr><td><div class="namecell"><div class="miniavatar">MV</div><div><strong>Mark Villanueva</strong><small>DPL-2026-0042</small></div></div></td><td>Gulf Build LLC · Electrician</td><td>🇦🇪 UAE</td><td>Nov 24, 2026</td><td><span class="pill green">Ticket confirmed</span></td><td><span class="pill green">Ready</span></td></tr>
+  <tr><td><div class="namecell"><div class="miniavatar">JR</div><div><strong>James Rivera</strong><small>DPL-2026-0043</small></div></div></td><td>Al Noor Industrial · Welder</td><td>🇶🇦 Qatar</td><td>Nov 27, 2026</td><td><span class="pill amber">Booking pending</span></td><td><span class="pill green">Ready</span></td></tr>
+  <tr><td><div class="namecell"><div class="miniavatar">PC</div><div><strong>Paolo Cruz</strong><small>DPL-2026-0044</small></div></div></td><td>Hikari Care Group · Caregiver</td><td>🇯🇵 Japan</td><td>Dec 02, 2026</td><td><span class="pill blue">Not booked</span></td><td><span class="pill amber">Clearance review</span></td></tr>
+ </tbody></table></div></div>
+</section>
+<section class="page" id="finance">
+ <div class="pagehead"><div><div class="kicker">Financial operations</div><h1>Finance</h1><p class="subtitle">Track agency income, expenses, receipts, invoices, and payments.</p></div><div class="actions"><button class="btn">↓ Export</button><button class="btn primary" onclick="toast('New transaction form opened')">＋ Record transaction</button></div></div>
+ <div class="financehighlight"><span>Net recorded cash flow · November 2026</span><strong>₱ 482,650.00</strong><small>Illustrative demo figures · based on recorded transactions</small></div>
+ <div class="stats"><div class="stat"><div class="stathead">Recorded income <span class="staticon">↗</span></div><div class="statvalue">₱ 684k</div><div class="statfoot">This month</div></div><div class="stat"><div class="stathead">Recorded expenses <span class="staticon">↘</span></div><div class="statvalue">₱ 201k</div><div class="statfoot">This month</div></div><div class="stat"><div class="stathead">Outstanding invoices <span class="staticon">▤</span></div><div class="statvalue">₱ 125k</div><div class="statfoot">3 invoices unpaid / partial</div></div><div class="stat"><div class="stathead">For approval <span class="staticon">◷</span></div><div class="statvalue">8</div><div class="statfoot">Expense submissions</div></div></div>
+ <div class="panel"><div class="panelhead"><div><h3>Recent transactions</h3><p>Latest recorded financial activity</p></div><button class="textlink">View ledger →</button></div><div style="overflow:auto"><table><thead><tr><th>Transaction</th><th>Reference</th><th>Related record</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+  <tr><td><strong style="color:#2d3855">Employer payment</strong></td><td>TRX-2026-0812</td><td>Al Noor Industrial · JO-024</td><td>Nov 19</td><td style="color:var(--green);font-weight:800">+ ₱ 180,000</td><td><span class="pill green">Posted</span></td></tr>
+  <tr><td><strong style="color:#2d3855">Medical examination</strong></td><td>TRX-2026-0811</td><td>Ahmed Hassan · PRC-0182</td><td>Nov 19</td><td style="color:var(--red);font-weight:800">− ₱ 4,500</td><td><span class="pill green">Approved</span></td></tr>
+  <tr><td><strong style="color:#2d3855">Office supplies</strong></td><td>TRX-2026-0809</td><td>General operations</td><td>Nov 18</td><td style="color:var(--red);font-weight:800">− ₱ 3,250</td><td><span class="pill amber">For review</span></td></tr>
+ </tbody></table></div></div>
+ <p style="font-size:10px;color:#929bad;margin:10px 2px">This prototype covers operational finance. Full accounting (general ledger, journal entries, chart of accounts, reconciliation, and financial statements) remains a scope decision.</p>
+</section>
+</div></main></div><div class="toast" id="toastbox"></div>
+<script>
+const labels={overview:"Overview",jobs:"Job orders",recruitment:"Recruitment",candidates:"Candidates",processing:"Processing",deployment:"Deployment",finance:"Finance"};
+function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".nav a[data-page]").forEach(a=>a.classList.toggle("active",a.dataset.page===id));document.getElementById("crumb").textContent=labels[id]||id;window.scrollTo(0,0)}
+document.querySelectorAll(".nav a[data-page]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();go(a.dataset.page)}));
+let tmr;function toast(msg){const el=document.getElementById("toastbox");el.textContent=msg;el.style.opacity=1;el.style.transform="translateY(0)";clearTimeout(tmr);tmr=setTimeout(()=>{el.style.opacity=0;el.style.transform="translateY(8px)"},2200)}
+function filterCards(){const q=(document.getElementById("searchCandidate").value||"").toLowerCase(),job=document.getElementById("filterJob").value;document.querySelectorAll(".kcard").forEach(c=>{c.style.display=((c.dataset.name+" "+c.dataset.job).toLowerCase().includes(q)&&(!job||c.dataset.job===job))?"block":"none"})}
+</script></body></html>

@@ -1,0 +1,20 @@
+{
+  "project": "Crowne ORMS",
+  "documents": [
+    "AGENTS.md",
+    "README.md",
+    "KICKOFF_PROMPT.md",
+    "docs/ARCHITECTURE.md",
+    "docs/PRODUCT_RULES.md",
+    "docs/DATABASE.md",
+    "docs/SECURITY_AND_RLS.md",
+    "docs/API_CONVENTIONS.md",
+    "docs/DEVELOPMENT_GUIDELINES.md",
+    "docs/UI_DESIGN_SYSTEM.md",
+    "docs/MILESTONES.md",
+    "docs/TESTING.md",
+    "docs/DECISIONS.md",
+    "docs/OPEN_QUESTIONS.md"
+  ],
+  "note": "Planning and engineering guardrails. Confirm open business decisions before implementation."
+}
