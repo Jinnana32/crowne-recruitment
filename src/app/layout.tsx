@@ -14,6 +14,13 @@ const display = Source_Serif_4({
 export const metadata: Metadata = {
   title: "Crowne ORMS",
   description: "Overseas recruitment operations for 2018 Crowne Human Resources, Inc.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon" }],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
