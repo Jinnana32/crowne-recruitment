@@ -25,11 +25,11 @@ const STEPS = [
   "Track your application status",
 ];
 
-function categoryIcon(category: string) {
+function CategoryIcon({ category, className }: { category: string; className: string }) {
   const value = category.toLowerCase();
-  if (value.includes("health") || value.includes("care")) return HeartPulse;
-  if (value.includes("engineer") || value.includes("construct")) return Wrench;
-  return Briefcase;
+  if (value.includes("health") || value.includes("care")) return <HeartPulse className={className} />;
+  if (value.includes("engineer") || value.includes("construct")) return <Wrench className={className} />;
+  return <Briefcase className={className} />;
 }
 
 function blurb(text: string) {
@@ -205,14 +205,13 @@ function ApplyingAside() {
 }
 
 function JobListCard({ job }: { job: PublicJob }) {
-  const Icon = categoryIcon(job.category || job.title);
   return (
     <article
       data-jobs-card
       className="group flex flex-col gap-4 rounded-2xl bg-card p-5 shadow-xs ring-1 ring-border transition-shadow hover:shadow-sm sm:flex-row sm:items-stretch sm:gap-5 sm:p-6"
     >
       <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-royal-soft text-primary">
-        <Icon className="size-6" />
+        <CategoryIcon category={job.category || job.title} className="size-6" />
       </span>
       <div className="min-w-0 flex-1">
         <h2 className="text-lg font-bold tracking-tight text-primary">{job.title}</h2>
@@ -247,7 +246,6 @@ function JobListCard({ job }: { job: PublicJob }) {
 }
 
 function JobGridCard({ job }: { job: PublicJob }) {
-  const Icon = categoryIcon(job.category || job.title);
   return (
     <Link
       href={`/jobs/${job.id}`}
@@ -256,7 +254,7 @@ function JobGridCard({ job }: { job: PublicJob }) {
     >
       <div className="flex items-start justify-between gap-3">
         <span className="grid size-11 place-items-center rounded-xl bg-royal-soft text-primary">
-          <Icon className="size-5" />
+          <CategoryIcon category={job.category || job.title} className="size-5" />
         </span>
         <span className="grid size-8 place-items-center rounded-full bg-gold text-gold-foreground transition-transform duration-300 group-hover:translate-x-0.5">
           <ArrowRight className="size-3.5" />
